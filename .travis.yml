@@ -1,0 +1,21 @@
+language: java
+sudo: false
+
+jdk:
+  - oraclejdk8
+
+install:
+  - mvn clean install
+
+script:
+  - mvn clean verify
+
+cache:
+  directories:
+    # local Maven repository
+    - '$HOME/.m2/repository'
+
+notifications:
+  email:
+    on_success: never
+    on_failure: alway
