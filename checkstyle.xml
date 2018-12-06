@@ -30,4 +30,9 @@
         <property name="eachLine" value="true" />
         <property name="fileExtensions" value="java" />
     </module>
+
+    <module name="Header">
+        <property name="headerFile" value="config/java.header" />
+        <property name="fileExtensions" value="java" />
+    </module>
 </module>
