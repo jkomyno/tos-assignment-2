@@ -1,5 +1,6 @@
 package it.unipd.tos.business;
 
+import it.unipd.tos.business.exception.RestaurantBillException;
 import it.unipd.tos.model.ItemType;
 import it.unipd.tos.model.MenuItem;
 import org.junit.Test;
@@ -58,4 +59,17 @@ public class RestaurantBillImplTest {
         assertEquals(bill.getOrderPrice(itemsOrdered), rawPrice - discount, 0.001);
     }
 
+    /**
+     * Non è possibile avere un’ordinazione con più di 20 elementi (se accade prevedere un messaggio
+     * d’errore
+     */
+    @Test(expected = RestaurantBillException.class)
+    public void testGetOrderPriceNoMoreThan20Items() {
+        RestaurantBillImpl bill = new RestaurantBillImpl();
+        List<MenuItem> list = getItemsOrdered();
+        list.addAll(list);
+
+        assert(list.size() >= 20);
+        bill.getOrderPrice(list);
+    }
 }
