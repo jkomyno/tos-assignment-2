@@ -43,4 +43,19 @@ public class RestaurantBillImplTest {
         List<MenuItem> itemsOrdered = getItemsOrdered();
         assertEquals( 75.5, bill.getOrderPrice(itemsOrdered), 0.001);
     }
+
+    /**
+     * Se l’importo totale delle ordinazioni (Pizze e Primi) supera i 100 euro viene fatto un 5% di
+     * sconto
+     */
+    @Test
+    public void testGetOrderPrice5PercentDiscountIfMoreThan100Euros() {
+        RestaurantBillImpl bill = new RestaurantBillImpl();
+        List<MenuItem> itemsOrdered = getItemsOrdered();
+        itemsOrdered.add(new MenuItem(ItemType.PIZZE, "Oro e argento", 100.00));
+        double rawPrice = 175.5;
+        double discount = rawPrice * 5 / 100;
+        assertEquals(bill.getOrderPrice(itemsOrdered), rawPrice - discount, 0.001);
+    }
+
 }

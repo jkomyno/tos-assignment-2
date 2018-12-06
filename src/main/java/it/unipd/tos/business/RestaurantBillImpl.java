@@ -32,6 +32,10 @@ public class RestaurantBillImpl implements RestaurantBill {
     public double getOrderPrice(List<MenuItem> itemsOrdered) throws RestaurantBillException {
         double totalPrice = getTotalPrice(itemsOrdered);
 
+        if (totalPrice > 100) {
+            totalPrice = getDiscount(totalPrice, 5);
+        }
+
         return totalPrice;
     }
 
@@ -44,5 +48,17 @@ public class RestaurantBillImpl implements RestaurantBill {
         return itemsOrdered.stream()
                 .mapToDouble(item -> item.getPrice())
                 .sum();
+    }
+
+    /**
+     * Applies discount to the original price and returns the resulting value.
+     * It assumes that both originalPrice and discount are != 0
+     * @param originalPrice
+     * @param discount
+     * @return
+     */
+    private static double getDiscount(double originalPrice, double discount) {
+        double amountToDiscount = originalPrice * discount / 100;
+        return originalPrice - amountToDiscount;
     }
 }
