@@ -5,7 +5,7 @@
 package it.unipd.tos.business.exception;
 
 public class RestaurantBillException extends RuntimeException {
-    RestaurantBillException() {
+    public RestaurantBillException() {
         super("Too many items ordered!");
     }
 }
