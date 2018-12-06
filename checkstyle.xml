@@ -13,6 +13,7 @@
             <property name="max" value="100" />
             <property name="ignorePattern" value="^package.*|^import.*" />
         </module>
+        <module name="MethodLength" />
     </module>
 
     <module name="FileLength" />
