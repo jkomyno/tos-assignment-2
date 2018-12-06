@@ -18,6 +18,9 @@
             <property name="exceptionVariableName" value="expected" />
         </module>
         <module name="AvoidStarImport" />
+        <module name="IllegalImport">
+            <property name="illegalPkgs" value="java.io" />
+        </module>
     </module>
 
     <module name="FileLength" />
