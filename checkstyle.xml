@@ -21,6 +21,7 @@
         <module name="IllegalImport">
             <property name="illegalPkgs" value="java.io" />
         </module>
+        <module name="NeedBraces" />
     </module>
 
     <module name="FileLength" />
