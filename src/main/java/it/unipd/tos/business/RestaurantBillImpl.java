@@ -8,6 +8,7 @@ import it.unipd.tos.business.exception.RestaurantBillException;
 import it.unipd.tos.model.ItemType;
 import it.unipd.tos.model.MenuItem;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -76,6 +77,18 @@ public class RestaurantBillImpl implements RestaurantBill {
     }
 
     /**
+     * Comparator that compares MenuItems in ascending order, according to their price
+     */
+    protected static Comparator<MenuItem> MenuItemPriceComparator = (a, b) -> {
+        if (a.getPrice() < b.getPrice()) {
+            return -1;
+        } else if (a.getPrice() > b.getPrice()) {
+            return 1;
+        }
+        return 0;
+    };
+
+    /**
      * Returns the cheapest menu item in itemsOrdered.
      * The list itemsOrdered is assumed to have at least an element.
      * @param itemsOrdered
@@ -83,15 +96,7 @@ public class RestaurantBillImpl implements RestaurantBill {
      */
     private static double getCheapestMenuItemPrice(List<MenuItem> itemsOrdered) {
         Optional<MenuItem> cheapestMenuItem = itemsOrdered.stream()
-                .min((a, b) -> {
-                    // compares MenuItems in ascending order, according to their price
-                    if (a.getPrice() < b.getPrice()) {
-                        return -1;
-                    } else if (a.getPrice() > b.getPrice()) {
-                        return 1;
-                    }
-                    return 0;
-                });
+                .min(MenuItemPriceComparator);
 
         return cheapestMenuItem.get().getPrice();
     }
