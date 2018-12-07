@@ -35,6 +35,26 @@ public class RestaurantBillImplTest {
     }
 
     /**
+     * Given any not null list of MenuItems, it returns its price.
+     * This is only used as a utility that avoids humanly asserting
+     * the sum of the prices of the items, since it isn't feasible and secure
+     * in the long run (different developers may add items to the list returned
+     * by getItemsOrdered(), thus forcing a manual check of the sum of the prices
+     * every time). Since the expected raw total price was already computed before
+     * this method was written, this method is considered secure to use (it doesn't
+     * break any test, and it's a straightforward use of the well tested standard Stream API),
+     * as long as itemsOrdered is not null.
+     * @param itemsOrdered
+     * @return
+     */
+    private static double getTotalRawPrice(List<MenuItem> itemsOrdered) {
+        return itemsOrdered
+                .stream()
+                .mapToDouble(m -> m.getPrice())
+                .sum();
+    }
+
+    /**
      * Dato un elenco di ordinazioni (Pizze e Primi piatti) calcolare il totale (somma del prezzo dei
      * prodotti ordinati)
      */
@@ -42,7 +62,7 @@ public class RestaurantBillImplTest {
     public void testGetOrderPriceBaseCase() {
         RestaurantBillImpl bill = new RestaurantBillImpl();
         List<MenuItem> itemsOrdered = getItemsOrdered();
-        assertEquals( 75.5, bill.getOrderPrice(itemsOrdered), 0.001);
+        assertEquals( getTotalRawPrice(itemsOrdered), bill.getOrderPrice(itemsOrdered), 0.001);
     }
 
     /**
@@ -54,7 +74,7 @@ public class RestaurantBillImplTest {
         RestaurantBillImpl bill = new RestaurantBillImpl();
         List<MenuItem> itemsOrdered = getItemsOrdered();
         itemsOrdered.add(new MenuItem(ItemType.PIZZE, "Oro e argento", 100.00));
-        double rawPrice = 175.5;
+        double rawPrice = getTotalRawPrice(itemsOrdered);
         double discount = rawPrice * 5 / 100;
         assertEquals(bill.getOrderPrice(itemsOrdered), rawPrice - discount, 0.001);
     }
@@ -83,7 +103,7 @@ public class RestaurantBillImplTest {
         List<MenuItem> list = getItemsOrdered();
         list.add(new MenuItem(ItemType.PIZZE, "Pomodorini", 7));
         list.add(new MenuItem(ItemType.PIZZE, "Patatosa", 5.50));
-        double totalRawPrice = 75.5 + 7 + 5.50;
+        double totalRawPrice = getTotalRawPrice(list);
         double minPrice = 3;
         assertEquals(totalRawPrice - minPrice, bill.getOrderPrice(list), 0.0001);
     }
