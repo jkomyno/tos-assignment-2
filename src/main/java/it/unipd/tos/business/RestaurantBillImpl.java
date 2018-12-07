@@ -34,6 +34,10 @@ public class RestaurantBillImpl implements RestaurantBill {
      * @throws RestaurantBillException
      */
     public double getOrderPrice(List<MenuItem> itemsOrdered) throws RestaurantBillException {
+        if (itemsOrdered == null) {
+            return 0;
+        }
+
         if (itemsOrdered.size() > 20) {
             throw new RestaurantBillException();
         }

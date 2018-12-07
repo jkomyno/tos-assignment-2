@@ -87,4 +87,14 @@ public class RestaurantBillImplTest {
         double minPrice = 3;
         assertEquals(totalRawPrice - minPrice, bill.getOrderPrice(list), 0.0001);
     }
+
+    /**
+     * Mi aspetto che se la lista di ordinazione è nulla, il prezzo calcolato sia 0.
+     * Non deve quindi essere lanciata una NullPointerException
+     */
+    @Test
+    public void testGetOrderPriceNullList() {
+        RestaurantBillImpl bill = new RestaurantBillImpl();
+        assertEquals(0, bill.getOrderPrice(null), 0.0001);
+    }
 }
