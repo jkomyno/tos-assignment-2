@@ -72,4 +72,19 @@ public class RestaurantBillImplTest {
         assert(list.size() >= 20);
         bill.getOrderPrice(list);
     }
+
+    /**
+     * Se vengono ordinate più di 10 Pizze la meno costosa è in regalo (l’importo totale non considera
+     * la pizza meno costosa)
+     */
+    @Test
+    public void testGetOrderPriceCheapestPizzaIsFreeIfMoreThan10Pizzas() {
+        RestaurantBillImpl bill = new RestaurantBillImpl();
+        List<MenuItem> list = getItemsOrdered();
+        list.add(new MenuItem(ItemType.PIZZE, "Pomodorini", 7));
+        list.add(new MenuItem(ItemType.PIZZE, "Patatosa", 5.50));
+        double totalRawPrice = 75.5 + 7 + 5.50;
+        double minPrice = 3;
+        assertEquals(totalRawPrice - minPrice, bill.getOrderPrice(list), 0.0001);
+    }
 }
